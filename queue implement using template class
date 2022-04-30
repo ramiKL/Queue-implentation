@@ -1,0 +1,104 @@
+#include <iostream>
+using std::cout;
+using std::endl;
+
+template <class T>
+class Queue {
+
+private:
+	int head; //top of queue
+	int tail; //back of queue
+	int size; //size of queue
+	T* QueuePtr;  //queue for pointer
+
+public:
+	Queue(int); //constructor
+	~Queue(); //destructor
+
+	bool enque(const int&); //function to push objects in queue from back 
+	bool deque(int&); // function to pop objects from queue top
+
+	bool isFull(); //function to check if queue is full
+	bool isEmpty(); //function to check if queue is empty
+
+	void Peek(); // function to show top element of queue
+
+};
+template <class T> //constructor
+Queue<T>::Queue(int s)
+{
+	size = s > 0 ? s: 10;
+	head = -1;
+	tail = -1;
+
+	QueuePtr = new T[s];
+
+}
+
+template <class T>
+Queue<T>::~Queue() { delete[]QueuePtr; } //destructor
+
+template <class T>
+bool Queue<T>::isEmpty() {return head == 0; }
+
+template <class T>
+bool Queue<T>::isFull(){ return head == size - 1; }
+
+template <class T>
+bool Queue<T>::enque(const int& enqValue)
+{
+	if (!isFull())
+	{
+		QueuePtr[++head] = enqValue;
+		
+		
+		return true;
+	}
+	return false;
+}
+template <class T>
+bool Queue<T>::deque(int& deqValue)
+{
+	if (!isEmpty())
+	{
+		deqValue = 10-(QueuePtr[head--]);
+		
+		return true;
+	}
+	return false;
+}
+template <class T>
+void Queue<T>::Peek()
+{
+	cout << "the peek is: " <<size-(head)<< endl;
+}
+
+int main()
+{
+	Queue <int> theQueue(8);
+	int a = 1;
+
+	cout << "enque of the queue"<< endl;
+
+	while (theQueue.enque(a))
+	{
+		cout << a << '\t';
+		a += 1;
+	}
+
+	cout << "queue is full,cannot push " << a << endl;
+	 theQueue.Peek();
+
+	
+
+	cout << "deque of the queue" << endl;
+
+	while (theQueue.deque(a))
+	{
+		cout << a << '\t';
+	}
+	cout << endl;
+	theQueue.Peek();
+
+	cout << "\nthe queue is empty, cannot deque" << endl;
+}
